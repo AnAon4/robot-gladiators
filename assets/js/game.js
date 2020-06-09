@@ -17,6 +17,8 @@ var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
+console.log(Math)
+
 var fight = function (enemyName) {
     while (enemyHealth > 0 && playerHealth > 0) {
         //ask user if they's like to fight or run
@@ -33,15 +35,17 @@ var fight = function (enemyName) {
             if (confirmSkip) {
                 window.alert(playerName + " has decided to skip this fight . Goodbye!");
                 // subtract money from playerMoney for skipping
-                playerMoney = playerMoney - 5;
+                playerMoney = Math.max(0, playerMoney - 5);
                 console.log("playerMoney", playerMoney);
                 break;
             }
             }
         };
 
-        // Subtract the value of 'playerAttack' from the value of 'enemyHealth' and use that result to update the value in the 'enemyHealth' variable
-        enemyHealth = enemyHealth - playerAttack;
+        //generate random damage value based on players attack power
+        var damage = randomNumber(playerAttack - 3, playerAttack);
+
+        enemyHealth = Math.max(0, enemyHealth - damage);
 
         // Log a resulting message to the console so we know that it worked.
         console.log(
@@ -57,8 +61,10 @@ var fight = function (enemyName) {
             window.alert(enemyName + " still has " + enemyHealth + " health left. ")
         }
 
-        // Subtract the value of 'enemyAttack' from the value of 'playerHealth' and us the rsult to update the value in the 'playerHealth' variable.
-        playerHealth = playerHealth - enemyAttack;
+        //generate random damage value based on enemy's attack power
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
+
+        playerHealth = Math.max(0, playerHealth - damage);
 
         // Log a resulting message to the console so we know that it worked.
         console.log(
@@ -141,10 +147,17 @@ var endGame = function () {
         startGame();
     }
     else {
-        window.alert("Thabk you for playing Robot Gladiators! Come back soon!")
+        window.alert("Thank you for playing Robot Gladiators! Come back soon!")
     }
 
 };
+
+//function to generate a random numeric value
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+    return value;
+}
 
 //function to start a new game
 var startGame = function () {
@@ -153,7 +166,7 @@ var startGame = function () {
     playerAttack = 10;
     playerMoney = 10;
     for (var i = 0; i < enemyNames.length; i++) {
-        debugger
+        //debugger
         if (playerHealth > 0) {
 
             //let user know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
@@ -163,7 +176,9 @@ var startGame = function () {
             var pickedEnemyName = enemyNames[i];
 
             //reset enemyHealth before starting new fight
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
+
+            enemyAttack = randomNumber(10, 14)
 
             //use debugger to pause script from running and check what's going on at that moment in the code
             //debugger:
